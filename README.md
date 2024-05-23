@@ -23,3 +23,20 @@ yarn add vue-react-bridge
 pnpm install vue-react-bridge
 bun add vue-react-bridge
 ```
+
+## Launch demo app
+
+```sh
+pnpm i
+pnpm run dev
+```
+
+## Architecture
+
+- Manager -> Renderer
+  - Creates vnode.
+  -
+- Locator
+  - Takes a component and props.
+  - Creates mount target.
+  - Registers to the manager.

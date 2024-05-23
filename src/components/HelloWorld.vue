@@ -21,7 +21,9 @@ const input = ref("")
     <input v-model="input" />
     <div v-for="i in [...Array(10)].map(i => i)">
       <div :key="i">
-        <ReactButton :count="count" :onClick="() => count++" :style="{ marginTop: 8 }" />
+        <ReactButton :count="count" :onClick="() => count++" :style="{ marginTop: 8 }">
+          React: count is {{count}}
+        </ReactButton>
         <ReactInput :value="input" :onChange="e => input = e.target.value" />
       </div>
     </div>

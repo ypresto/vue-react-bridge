@@ -1,17 +1,17 @@
 import React from 'react'
 
 export function ReactButton({
-  count,
   onClick,
+  children,
   ...props
 }: {
-  count: number
   onClick: () => void
+  children?: React.ReactNode
   style: React.CSSProperties
 }) {
   return (
     <button {...props} onClick={() => onClick()}>
-      React: count is {count}
+      {children}
     </button>
   )
 }

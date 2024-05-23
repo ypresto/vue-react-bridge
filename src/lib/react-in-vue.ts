@@ -5,6 +5,7 @@ import {
   Component,
   PropType,
   Ref,
+  computed,
   defineComponent,
   h,
   inject,
@@ -17,6 +18,7 @@ import {
   useSlots,
   watch,
 } from 'vue'
+import { VueInReactLocator } from './vue-in-react'
 
 type ReactInVueState = {
   mountNodeMap: Ref<Map<number, MountNode>>
@@ -145,13 +147,26 @@ export function reactInVue<P>(component: React.ComponentType<P>) {
     // Do not automatically set passed props and event handlers (in attrs) on root DOM element.
     inheritAttrs: false,
 
-    setup(_props, { attrs }) {
+    setup(_props, { attrs, slots }) {
       let forceRender = 0
+
+      const props = computed(() => {
+        const p = { ...attrs }
+
+        if (slots.default) {
+          p.children = React.createElement(VueInReactLocator, {
+            is: 'template',
+            slot: slots.default,
+          })
+        }
+
+        return p
+      })
 
       return () => {
         // important to pass renderCount here; because attrs is not reactive, no rendering will be triggered after update.
         // https://vuejs.org/guide/components/attrs#accessing-fallthrough-attributes-in-javascript
-        return h(ReactInVueLocator, { component, props: attrs, renderCount: ++forceRender })
+        return h(ReactInVueLocator, { component, props, renderCount: ++forceRender })
       }
     },
   })
